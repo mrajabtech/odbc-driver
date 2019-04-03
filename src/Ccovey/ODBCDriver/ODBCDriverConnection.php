@@ -17,12 +17,13 @@ class ODBCDriverConnection extends Connection
 		$grammarConfig = $this->getGrammarConfig();
 
 		if ($grammarConfig) {
-			$packageGrammar = "Ccovey\\ODBCDriver\\Grammars\\" . $grammarConfig; 
+			$packageGrammar = "Ccovey\\ODBCDriver\\Grammars\\" . $grammarConfig;
 			if (class_exists($packageGrammar)) {
 				return $this->withTablePrefix(new $packageGrammar);
 			}
-			
-			$illuminateGrammar = "Illuminate\\Database\\Query\\Grammars\\" . $grammarConfig;
+
+//			$illuminateGrammar = "Illuminate\\Database\\Query\\Grammars\\" . $grammarConfig;
+			$illuminateGrammar = $grammarConfig;
 			if (class_exists($illuminateGrammar)) {
 				return $this->withTablePrefix(new $illuminateGrammar);
 			}
@@ -59,5 +60,5 @@ class ODBCDriverConnection extends Connection
 	{
 		return new ODBCDriverProcessor();
 	}
-	
+
 }

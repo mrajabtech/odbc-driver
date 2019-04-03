@@ -14,36 +14,36 @@ use Illuminate\Database\SqlServerConnection;
 
 class ODBCDriverConnectionFactory extends ConnectionFactory
 {
-	public function createConnector(array $config)
-	{
-		if (!isset($config['driver'])) {
-			throw new \InvalidArgumentException("A driver must be specified");
-		}
+    public function createConnector(array $config)
+    {
+        if (!isset($config['driver'])) {
+            throw new \InvalidArgumentException("A driver must be specified");
+        }
 
-		switch ($config['driver']) {
-			case 'mysql':
-				return new MySqlConnector;
-			case 'pgsql':
-				return new PostgresConnector;
-			case 'sqlite':
-				return new SQLiteConnector;
-			case 'sqlsrv':
-				return new SqlServerConnector;
-			case 'odbc':
-				return new ODBCDriverConnector;
-		}
+        switch ($config['driver']) {
+            case 'mysql':
+                return new MySqlConnector;
+            case 'pgsql':
+                return new PostgresConnector;
+            case 'sqlite':
+                return new SQLiteConnector;
+            case 'sqlsrv':
+                return new SqlServerConnector;
+            case 'odbc':
+                return new ODBCDriverConnector;
+        }
 
-		throw new \InvalidArgumentException("Unsupported Driver [{$config['driver']}]");
-	}
+        throw new \InvalidArgumentException("Unsupported Driver [{$config['driver']}]");
+    }
 
-	public function createConnection($driver, $connection, $database, $prefix ='', array $config = array())
-	{
-		if ($this->container->bound($key = "db.connection.{$driver}"))
-		{
-			return $this->container->make($key, array($connection, $database, $prefix, $config));
-		}
+    public function createConnection($driver, $connection, $database, $prefix ='', array $config = array())
+    {
+        if ($this->container->bound($key = "db.connection.{$driver}"))
+        {
+            return $this->container->make($key, array($connection, $database, $prefix, $config));
+        }
 
-		switch ($driver) {
+        switch ($driver) {
             case 'mysql':
                 return new MySqlConnection($connection, $database, $prefix, $config);
 
@@ -55,11 +55,11 @@ class ODBCDriverConnectionFactory extends ConnectionFactory
 
             case 'sqlsrv':
                 return new SqlServerConnection($connection, $database, $prefix, $config);
-                
+
             case 'odbc':
                 return new ODBCDriverConnection($connection, $database, $prefix, $config);
         }
 
         throw new \InvalidArgumentException("Unsupported driver [$driver]");
-	}
+    }
 }
