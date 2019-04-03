@@ -22,7 +22,7 @@ class ODBCDriverConnector extends Connector implements ConnectorInterface
         extract($config);
 
 //        $dsn = "odbc:{$dsn}; Uid={$username}; Pwd={$password}; Database={$database}";
-        $dsn = "snowflake:{$dsn};"; // Uid={$username}; Pwd={$password}; Database={$database}
+        $dsn = "snowflake:{$dsn};insecure_mode=true"; // Uid={$username}; Pwd={$password}; Database={$database}
 
         return $dsn;
     }
