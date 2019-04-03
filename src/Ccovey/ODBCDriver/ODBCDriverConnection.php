@@ -9,56 +9,63 @@ use Illuminate\Database\Query\Grammars\Grammar;
  */
 class ODBCDriverConnection extends Connection
 {
-	/**
-	 * @return Query\Grammars\Grammar
-	 */
-	protected function getDefaultQueryGrammar()
-	{
-		$grammarConfig = $this->getGrammarConfig();
+    /**
+     * @return Query\Grammars\Grammar
+     */
+    protected function getDefaultQueryGrammar()
+    {
+        $grammarConfig = $this->getGrammarConfig();
 
-		if ($grammarConfig) {
-			$packageGrammar = "Ccovey\\ODBCDriver\\Grammars\\" . $grammarConfig;
-			if (class_exists($packageGrammar)) {
-				return $this->withTablePrefix(new $packageGrammar);
-			}
+        if ($grammarConfig) {
+            $packageGrammar = "Ccovey\\ODBCDriver\\Grammars\\" . $grammarConfig;
+            if (class_exists($packageGrammar)) {
+                return $this->withTablePrefix(new $packageGrammar);
+            }
 
 //			$illuminateGrammar = "Illuminate\\Database\\Query\\Grammars\\" . $grammarConfig;
-			$illuminateGrammar = $grammarConfig;
-			if (class_exists($illuminateGrammar)) {
-				return $this->withTablePrefix(new $illuminateGrammar);
-			}
-		}
+            $illuminateGrammar = $grammarConfig;
+            if (class_exists($illuminateGrammar)) {
+                return $this->withTablePrefix(new $illuminateGrammar);
+            }
+        }
 
-		return $this->withTablePrefix(new Grammar);
-	}
+        return $this->withTablePrefix(new Grammar);
+    }
 
-	/**
-	 * Default grammar for specified Schema
-	 * @return Schema\Grammars\Grammar
-	 */
-	protected function getDefaultSchemaGrammar()
-	{
-		return $this->withTablePrefix(new \Illuminate\Database\Schema\Grammars\SqlServerGrammar);
-	}
-
-	/**
-	 * @return bool|mixed
+    /**
+     * Default grammar for specified Schema
+     * @return Schema\Grammars\Grammar
      */
-	protected function getGrammarConfig()
-	{
-		if ($this->getConfig('grammar')) {
-			return $this->getConfig('grammar');
-		}
+    protected function getDefaultSchemaGrammar()
+    {
+        $schema = \Illuminate\Database\Schema\Grammars\SqlServerGrammar::class;
+        if ($this->getConfig('schema')) {
+            $schema = $this->getConfig('schema');
+        }
 
-		return false;
-	}
+        return $this->withTablePrefix(new $schema);
 
-	/**
-	 * @return ODBCDriverProcessor
+//		return $this->withTablePrefix(new \Illuminate\Database\Schema\Grammars\SqlServerGrammar);
+    }
+
+    /**
+     * @return bool|mixed
      */
-	protected function getDefaultPostProcessor()
-	{
-		return new ODBCDriverProcessor();
-	}
+    protected function getGrammarConfig()
+    {
+        if ($this->getConfig('grammar')) {
+            return $this->getConfig('grammar');
+        }
+
+        return false;
+    }
+
+    /**
+     * @return ODBCDriverProcessor
+     */
+    protected function getDefaultPostProcessor()
+    {
+        return new ODBCDriverProcessor();
+    }
 
 }
