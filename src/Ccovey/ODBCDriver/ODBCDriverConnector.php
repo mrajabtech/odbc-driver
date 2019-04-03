@@ -13,6 +13,17 @@ class ODBCDriverConnector extends Connector implements ConnectorInterface
 
         $options = $this->getOptions($config);
 
+        $configOptions = array_get($config, 'options');
+//        dd($configOptions);
+
+        foreach ($configOptions as $k => $v) {
+            $options[$k] = $v;
+        }
+//        $options = array_diff_key($configOptions, $options) + $options;
+//        $options= array_merge($options, $configOptions);
+
+//        dd($options);
+
         $connection = $this->createConnection($dsn, $config, $options);
 
         return $connection;
