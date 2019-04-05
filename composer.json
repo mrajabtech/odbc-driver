@@ -28,5 +28,8 @@
             "Ccovey\\ODBCDriver": "src/"
         }
     },
+    "config":{
+        "cache-files-ttl": 0
+    },
     "minimum-stability": "dev"
 }
