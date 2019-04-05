@@ -1,10 +1,11 @@
 {
-    "name": "garylocke/odbc-driver",
+    "name": "StevenBock/odbc-driver",
     "description": "Laravel 5 ODBC Driver",
     "keywords": ["odbc", "driver", "laravel", "5"],
     "authors": [
         {
             "name": "Rodrigo Troncoso",
+
             "email": "rod.tronco@gmail.com"
         },
         {
