@@ -13,7 +13,7 @@ class ODBCDriverConnector extends Connector implements ConnectorInterface
 
         $options = $this->getOptions($config);
 
-        $configOptions = array_get($config, 'options');
+        $configOptions = \Arr::get($config, 'options');
 //        dd($configOptions);
 
         foreach ($configOptions as $k => $v) {
@@ -48,8 +48,8 @@ class ODBCDriverConnector extends Connector implements ConnectorInterface
      */
     public function createConnection($dsn, array $config, array $options)
     {
-        $username = array_get($config, 'username');
-        $password = array_get($config, 'password');
+        $username = \Arr::get($config, 'username');
+        $password = \Arr::get($config, 'password');
 
         return new PDO($dsn, $username, $password, $options);
     }
